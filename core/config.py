@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     gmail_token_path: str = Field(default="token.json")
 
     # AI Provider
-    ai_provider: Literal["anthropic", "openai"] = Field(default="anthropic")
+    ai_provider: Literal["anthropic", "openai"] = Field(default="openai")
     anthropic_api_key: str = Field(default="")
     openai_api_key: str = Field(default="")
 

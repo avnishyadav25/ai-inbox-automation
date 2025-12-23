@@ -1,5 +1,5 @@
 from typing import Dict
-from core.llm_client import llm_client
+from core.llm_client import get_llm_client
 from core.config import settings
 from utils.logger import logger
 
@@ -52,7 +52,7 @@ Priority:
 - low: FYI, no action required"""
 
         try:
-            result = llm_client.generate_json(prompt, system_prompt=self.system_prompt)
+            result = get_llm_client().generate_json(prompt, system_prompt=self.system_prompt)
 
             logger.info(
                 f"Classified email {email['id']}: {result['category']} - {result['priority']}"

@@ -1,5 +1,5 @@
 from typing import Dict
-from core.llm_client import llm_client
+from core.llm_client import get_llm_client
 from utils.logger import logger
 
 
@@ -47,7 +47,7 @@ Focus on:
 - Action items or required responses"""
 
         try:
-            result = llm_client.generate_json(prompt, system_prompt=self.system_prompt)
+            result = get_llm_client().generate_json(prompt, system_prompt=self.system_prompt)
 
             logger.info(f"Summarized email {email['id']}")
             return result

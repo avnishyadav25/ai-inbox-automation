@@ -1,5 +1,5 @@
 from typing import Dict, List, Optional
-from core.llm_client import llm_client
+from core.llm_client import get_llm_client
 from core.vector_store import vector_store
 from utils.logger import logger
 
@@ -36,6 +36,8 @@ Match the tone of the incoming email and maintain professionalism."""
 
         sender_info = self._extract_sender_name(email["from"])
 
+        additional_context = ("ADDITIONAL CONTEXT:\n" + context) if context else ""
+
         prompt = f"""Draft a professional email reply based on the following:
 
 INCOMING EMAIL:
@@ -56,7 +58,7 @@ Sentiment: {summary['sentiment']}
 
 {rag_context}
 
-{"ADDITIONAL CONTEXT:\n" + context if context else ""}
+{additional_context}
 
 Generate a reply in the following JSON format:
 {{
@@ -76,7 +78,7 @@ Guidelines:
 - If you need more information, ask clarifying questions politely"""
 
         try:
-            result = llm_client.generate_json(prompt, system_prompt=self.system_prompt)
+            result = get_llm_client().generate_json(prompt, system_prompt=self.system_prompt)
 
             logger.info(f"Drafted reply for email {email['id']}")
             return result
@@ -145,7 +147,7 @@ Generate an improved reply in the following JSON format:
 }}"""
 
         try:
-            result = llm_client.generate_json(prompt, system_prompt=self.system_prompt)
+            result = get_llm_client().generate_json(prompt, system_prompt=self.system_prompt)
             logger.info(f"Refined reply for email {email['id']}")
             return result
 

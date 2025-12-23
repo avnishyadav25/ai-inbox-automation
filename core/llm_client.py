@@ -93,5 +93,11 @@ class LLMClient:
             return json.loads(response.choices[0].message.content)
 
 
-# Global LLM client instance
-llm_client = LLMClient()
+_llm_client = None
+
+def get_llm_client() -> LLMClient:
+    """Return a singleton LLMClient, creating it on first use."""
+    global _llm_client
+    if _llm_client is None:
+        _llm_client = LLMClient()
+    return _llm_client
